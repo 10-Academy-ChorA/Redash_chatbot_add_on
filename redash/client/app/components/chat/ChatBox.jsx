@@ -1,5 +1,5 @@
 import React,{ useState} from 'react'
-import redashpng from "@/assets/images/favicon-96x96.png";
+import chat_icon from "@/assets/images/chat_logo.png";
 import './chatbox.less'
 import Chat from '@/services/chat';
 import { IoCopy } from "react-icons/io5";
@@ -111,7 +111,7 @@ export default function ChatBox() {
       <div className='chatcontainer'>
         <div>
             <div className='headbox'>
-              <p>query, visualize with AI</p>            
+              <p> Chatbot for Queries and Visualizations</p>            
             </div>
 
             <div className='chatbox'>
@@ -190,7 +190,7 @@ export default function ChatBox() {
       :null}
 
       <div className='iconbox' onClick={()=>setOpen(!open)}>
-         <img alt="charimage" src={redashpng} className="icon" />
+         <img alt="charimage" src={chat_icon} className="icon" />
       </div>     
     </>
   )
