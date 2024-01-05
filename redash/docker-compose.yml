@@ -63,9 +63,19 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_HOST_AUTH_METHOD: "trust"
+
+    # added so that the postgres platform is linux/amd64 not arm64
+    platform: linux/amd64
+    # added so that the postgres db doesn't get removed on make down
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   email:
     image: maildev/maildev
     ports:
       - "1080:1080"
       - "1025:1025"
     restart: unless-stopped
+
+# added so that the postgres db doesn't get removed on make down
+volumes:
+  postgres_data:
