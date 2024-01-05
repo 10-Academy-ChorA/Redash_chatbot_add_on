@@ -39,9 +39,13 @@ export default function ChatBox() {
       sender: "bot",
       text: response.answer
     };
+    refreshPage()
      setChatHistory((history) => [...history, data]);
      setInput("");
   }
+  const refreshPage = () => {
+    window.location.reload();
+  };
 
   const handleCopy = (content) => {
     copy(content);

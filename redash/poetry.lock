@@ -4095,6 +4095,20 @@ files = [
 typing-extensions = ">=4.1.1,<5.0.0"
 
 [[package]]
+name = "redash-api-client"
+version = "0.3.0"
+description = "Redash API Client"
+optional = false
+python-versions = "*"
+files = [
+    {file = "redash-api-client-0.3.0.tar.gz", hash = "sha256:45e35610eb5cafc649a1ae6dba95559cbd6c0de70c49ae1bf0393289928f71d3"},
+    {file = "redash_api_client-0.3.0-py3-none-any.whl", hash = "sha256:3525091d18f07b5dcdac8b66700d08414aa31c3f81d72b14002aa607687a7874"},
+]
+
+[package.dependencies]
+requests = "*"
+
+[[package]]
 name = "redis"
 version = "4.6.0"
 description = "Python client for Redis database and key-value store"
@@ -5434,4 +5448,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<3.11"
-content-hash = "6e923f1675ff7b9e0a14be0b8ce7ebc5783df3582a6a3bb128e71e3da04bfc81"
+content-hash = "2479fc8b26942f50d85d5d6ff18606513576a60aa56d495371e598f1ad325963"
