@@ -4109,6 +4109,21 @@ files = [
 requests = "*"
 
 [[package]]
+name = "redash-toolbelt"
+version = "0.1.9"
+description = "Redash API client and tools to manage your instance."
+optional = false
+python-versions = ">=3.6,<4.0"
+files = [
+    {file = "redash_toolbelt-0.1.9-py3-none-any.whl", hash = "sha256:8d9110f191d5d3d28ff405e9d3d4e59469b657d5e4b980707e2c791be542ca43"},
+    {file = "redash_toolbelt-0.1.9.tar.gz", hash = "sha256:65b1d86eb0b6d7d7c843b30aca8d752051290e0faa90c641322de13fbb2dba4d"},
+]
+
+[package.dependencies]
+click = ">=8.0.3,<9.0.0"
+requests = ">=2.22.0,<3.0.0"
+
+[[package]]
 name = "redis"
 version = "4.6.0"
 description = "Python client for Redis database and key-value store"
@@ -5448,4 +5463,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<3.11"
-content-hash = "2479fc8b26942f50d85d5d6ff18606513576a60aa56d495371e598f1ad325963"
+content-hash = "606a105f04e1dffa0c73e25f7736af5f06137255bdd695c2b621b9082583c892"

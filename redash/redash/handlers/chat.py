@@ -4,6 +4,7 @@ from redash.handlers.base import (
 )
 import os
 from redashAPI import RedashAPIClient
+from redash_toolbelt import Redash, get_frontend_vals
 
 from openai import OpenAI
 VARIABLE_KEY = os.environ.get("OPENAI_API_KEY")
@@ -18,15 +19,23 @@ class ChatResource(BaseResource):
         try:
             value = request.get_json()
             question = value.get('question')
+            # for example url = http://localhost:5001/dashboards/3-new-dashboard
+            url = value.get('url')
+            # split url using / into 3 parts
+            base_url = "http://localhost:5000"
+            slug  = url.split("/")[4] # -> returns 3-new-dashboard
+            slug = slug.split('-')[0] # -> returns 3
             result = self.get_sql_query(question)
             is_sql  = self.check_if_valid_sql(result)
             if(is_sql):
                 self.perform_redash_request(result)
+                # doesn't refresh the frontend so commented out
+                # self.refresh_dashboard(base_url, REDASH_API_KEY,slug)
             response_data = {"answer": result}
             return jsonify(response_data), 200
         except Exception as error:
             print(error)
-            return jsonify({"error": "An error occurred"}), 500
+            return jsonify({"error": error}), 500
         
     def get_sql_query(self,question):    
         completion = client.chat.completions.create(
@@ -98,3 +107,80 @@ class ChatResource(BaseResource):
             "row": 0,
             "sizeX": 3,
             "sizeY": 8})
+        
+
+    # doesn't refresh the frontend so commented out
+    # def refresh_dashboard(self, baseurl, apikey, slug):
+
+    #     client = Redash(baseurl, apikey)
+    #     todays_dates = get_frontend_vals()
+    #     queries_dict = self.get_queries_on_dashboard(client, slug)
+
+    #     # loop through each query and its JSON data
+    #     for idx, qry in queries_dict.items():
+
+    #         params = {
+    #             p.get("name"): self.fill_dynamic_val(todays_dates, p)
+    #             for p in qry["options"].get("parameters", [])
+    #         }
+
+    #         # Pass max_age to ensure a new result is provided.
+    #         body = {"parameters": params, "max_age": 0}
+
+    #         r = client._post(f"api/queries/{idx}/results", json=body)
+
+    #         print(f"Query: {idx} -- Code {r.status_code}")
+
+
+    # def get_queries_on_dashboard(self, client, slug):
+
+    #     # Get a list of queries on this dashboard
+    #     dash = client.dashboard(slug=slug)
+
+    #     # Dashboards have visualization and text box widgets. Get the viz widgets.
+    #     viz_widgets = [i for i in dash["widgets"] if "visualization" in i.keys()]
+
+    #     # Visualizations are tied to queries
+    #     l_query_ids = [i["visualization"]["query"]["id"] for i in viz_widgets]
+
+    #     return {id: client._get(f"api/queries/{id}").json() for id in l_query_ids}
+
+
+    # def fill_dynamic_val(self, dates, p):
+    #     """Accepts parameter default information from the Redash API.
+
+    #     If the default value is not a date type, or its value cannot be calculated,
+    #     then the default value is returned unchanged.
+
+    #     Otherwise, the dynamic value is retrieved from the dates param and returned
+    #     """
+
+    #     if not self.is_dynamic_param(dates, p):
+    #         return p.get("value")
+    #     dyn_val = getattr(dates, p.get("value"))
+
+    #     if self.is_date_range(dyn_val):
+    #         return self.format_date_range(dyn_val)
+    #     else:
+    #         return self.format_date(dyn_val)
+
+
+    # def is_dynamic_param(self, dates, param):
+
+    #     return "date" in param.get("type") and param.get("value") in dates._fields
+
+
+    # def is_date_range(self, value):
+    #     return hasattr(value, "start") and hasattr(value, "end")
+
+
+    # def format_date(self, date_obj):
+    #     return date_obj.strftime("%Y-%m-%d")
+
+
+    # def format_date_range(self, date_range_obj):
+
+    #     start = self.format_date(date_range_obj.start)
+    #     end = self.format_date(date_range_obj.end)
+
+    #     return dict(start=start, end=end)

@@ -88,6 +88,7 @@ xlsxwriter = "1.2.2"
 tzlocal = "4.3.1"
 openai = "^1.6.1"
 redash-api-client = "^0.3.0"
+redash-toolbelt = "^0.1.9"
 
 [tool.poetry.group.all_ds]
 optional = true

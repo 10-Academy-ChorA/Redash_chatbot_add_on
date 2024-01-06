@@ -31,17 +31,20 @@ export default function ChatBox() {
   }
 
   async function chatWithOpenai(text) {
+     const currentURL = window.location.href;
     const requestOptions = {
-        question: text
+        question: text,
+        url:currentURL
     };
     const response = await Chat.openai(requestOptions);
     const data = {
       sender: "bot",
       text: response.answer
     };
+    setChatHistory((history) => [...history, data]);
+    localStorage.setItem('chat_history', JSON.stringify(chatHistory));
+    setInput("");
     refreshPage()
-     setChatHistory((history) => [...history, data]);
-     setInput("");
   }
   const refreshPage = () => {
     window.location.reload();
